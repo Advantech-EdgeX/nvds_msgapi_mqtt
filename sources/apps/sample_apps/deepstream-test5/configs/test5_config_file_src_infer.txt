@@ -131,6 +131,21 @@ bitrate=4000000
 rtsp-port=8554
 udp-port=5400
 
+[sink4]
+enable=1
+#Type - 1=FakeSink 2=EglSink 3=File 4=UDPSink 5=nvoverlaysink 6=MsgConvBroker
+type=6
+msg-conv-config=dstest5_msgconv_sample_config.txt
+#(0): PAYLOAD_DEEPSTREAM - Deepstream schema payload
+#(1): PAYLOAD_DEEPSTREAM_MINIMAL - Deepstream schema payload minimal
+#(256): PAYLOAD_RESERVED - Reserved type
+#(257): PAYLOAD_CUSTOM   - Custom schema payload
+msg-conv-payload-type=0
+# plain text MQTT
+msg-broker-proto-lib=/opt/nvidia/deepstream/deepstream/lib/libnvds_mqtt_proto.so
+msg-broker-conn-str=192.168.0.103;1883;
+topic=AnalyticsData
+
 # sink type = 6 by default creates msg converter + broker.
 # To use multiple brokers use this group for converter and use
 # sink type = 6 with disable-msgconv = 1
