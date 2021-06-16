@@ -29,8 +29,8 @@ perf-measurement-interval-sec=5
 enable=1
 rows=2
 columns=2
-width=1280
-height=720
+width=1920
+height=1080
 gpu-id=0
 #(0): nvbuf-mem-default - Default memory allocated, specific to particular platform
 #(1): nvbuf-mem-cuda-pinned - Allocate Pinned/Host cuda memory, applicable for Tesla
@@ -45,7 +45,7 @@ enable=1
 #Type - 1=CameraV4L2 2=URI 3=MultiURI
 type=3
 uri=file://../../../../../samples/streams/sample_1080p_h264.mp4
-num-sources=2
+num-sources=1
 gpu-id=0
 nvbuf-memory-type=0
 
@@ -54,14 +54,32 @@ enable=1
 #Type - 1=CameraV4L2 2=URI 3=MultiURI
 type=3
 uri=file://../../../../../samples/streams/sample_1080p_h264.mp4
-num-sources=2
+num-sources=1
+gpu-id=0
+nvbuf-memory-type=0
+
+[source2]
+enable=1
+#Type - 1=CameraV4L2 2=URI 3=MultiURI
+type=3
+uri=file://../../../../../samples/streams/sample_1080p_h264.mp4
+num-sources=1
+gpu-id=0
+nvbuf-memory-type=0
+
+[source3]
+enable=1
+#Type - 1=CameraV4L2 2=URI 3=MultiURI
+type=3
+uri=file://../../../../../samples/streams/sample_1080p_h264.mp4
+num-sources=1
 gpu-id=0
 nvbuf-memory-type=0
 
 [sink0]
 enable=1
 #Type - 1=FakeSink 2=EglSink 3=File
-type=2
+type=1
 sync=1
 source-id=0
 gpu-id=0
@@ -77,10 +95,14 @@ msg-conv-config=dstest5_msgconv_sample_config.txt
 #(256): PAYLOAD_RESERVED - Reserved type
 #(257): PAYLOAD_CUSTOM   - Custom schema payload
 msg-conv-payload-type=0
-msg-broker-proto-lib=/opt/nvidia/deepstream/deepstream-5.1/lib/libnvds_kafka_proto.so
+# TLS MQTT
+#msg-broker-proto-lib=/opt/nvidia/deepstream/deepstream-5.1/sources/libs/aws_protocol_adaptor/device_client/libnvds_aws_proto.so
+# plain text MQTT
+msg-broker-proto-lib=/opt/nvidia/deepstream/deepstream/lib/libnvds_mqtt_proto.so
 #Provide your msg-broker-conn-str here
-msg-broker-conn-str=<host>;<port>;<topic>
-topic=<topic>
+# plain text MQTT
+msg-broker-conn-str=192.168.0.103;7883;
+topic=AnalyticsData
 #Optional:
 #msg-broker-config=../../deepstream-test4/cfg_kafka.txt
 
@@ -96,6 +118,18 @@ sync=1
 bitrate=2000000
 output-file=out.mp4
 source-id=0
+
+[sink3]
+enable=1
+#Type - 1=FakeSink 2=EglSink 3=File 4=RTSPStreaming
+type=4
+#1=h264 2=h265
+codec=1
+sync=0
+bitrate=4000000
+# set below properties in case of RTSPStreaming
+rtsp-port=8554
+udp-port=5400
 
 # sink type = 6 by default creates msg converter + broker.
 # To use multiple brokers use this group for converter and use
@@ -141,7 +175,7 @@ nvbuf-memory-type=0
 [streammux]
 gpu-id=0
 ##Boolean property to inform muxer that sources are live
-live-source=0
+live-source=4
 batch-size=4
 ##time out in usec, to wait after the first buffer is available
 ##to push the batch even if the complete batch is not formed
@@ -187,4 +221,4 @@ gpu-id=0
 enable-batch-process=0
 
 [tests]
-file-loop=0
+file-loop=1
