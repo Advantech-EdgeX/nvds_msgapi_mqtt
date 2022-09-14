@@ -23,8 +23,7 @@
 [sensor0]
 enable=1
 type=Camera
-id=source0
-#id=HWY_20_AND_LOCUST__EBA__4_11_2018_4_59_59_508_AM_UTC-07_00
+id=HWY_20_AND_LOCUST__EBA__4_11_2018_4_59_59_508_AM_UTC-07_00
 location=45.293701447;-75.8303914499;48.1557479338
 description=Aisle Camera
 coordinate=5.2;10.1;11.2
@@ -32,8 +31,7 @@ coordinate=5.2;10.1;11.2
 [sensor1]
 enable=1
 type=Camera
-id=source1
-#id=HWY_20_AND_LOCUST__WBA__4_11_2018_4_59_59_379_AM_UTC-07_00
+id=HWY_20_AND_LOCUST__WBA__4_11_2018_4_59_59_379_AM_UTC-07_00
 location=45.293701447;-75.8303914499;48.1557479338
 description=Aisle Camera
 coordinate=5.2;10.1;11.2
@@ -41,8 +39,7 @@ coordinate=5.2;10.1;11.2
 [sensor2]
 enable=1
 type=Camera
-id=source2
-#id=HWY_20_AND_DEVON__WBA__4_11_2018_4_59_59_134_AM_UTC-07_00
+id=HWY_20_AND_DEVON__WBA__4_11_2018_4_59_59_134_AM_UTC-07_00
 location=45.293701447;-75.8303914499;48.1557479338
 description=Aisle Camera
 coordinate=5.2;10.1;11.2
@@ -50,8 +47,7 @@ coordinate=5.2;10.1;11.2
 [sensor3]
 enable=1
 type=Camera
-id=source3
-#id=HWY_20_AND_LOCUST__4_11_2018_4_59_59_320_AM_UTC-07_00
+id=HWY_20_AND_LOCUST__4_11_2018_4_59_59_320_AM_UTC-07_00
 location=45.293701447;-75.8303914499;48.1557479338
 description=Aisle Camera
 coordinate=5.2;10.1;11.2
