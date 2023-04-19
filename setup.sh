@@ -1,9 +1,11 @@
 #!/bin/bash
 
 NVDS_VERSION=6.0
+CUDA_VER=11.4
 PAHO_MQTT_VERSION=v1.3.10
-DS_LIB=/opt/nvidia/deepstream/deepstream-${NVDS_VERSION}/lib
-DS_SAMPLE=/opt/nvidia/deepstream/deepstream-${NVDS_VERSION}/sources/apps/sample_apps
+DS_LIB=/opt/nvidia/deepstream/deepstream/lib
+DS_SAMPLE=/opt/nvidia/deepstream/deepstream/sources/apps/sample_apps
+APP_INSTALL=0
 APP_CONFIG=0
 APP_RTSP=0
 SINK0=
@@ -115,10 +117,27 @@ function config_sink0 () {
 	p=`sed -n '/sink0/=' ${DS_APP}/configs/${CONF}`
 	if [ -n "${p}" ]; then
 		sudo sed -i -e "${p},$((${p}+3)) s/^type=[[:digit:]]\+/type=${SINK0}/g" ${DS_APP}/configs/${CONF}
-		if [ -n "${SINK0}" ]; then
-			echo "Please set shell env var DISPLAY properly!!"
+		if [ -n "${SINK0}" -a "${SINK0}" -eq 2 ]; then
+			echo "Please remember to set shell env var DISPLAY=:1 before running!!"
 		fi
 	fi
+}
+
+function config_sink1_enable_MsgConvBroker () {
+
+	local p
+
+	p=`sed -n '/sink1/=' ${DS_APP}/configs/${CONF}`
+	if [ -n "${p}" ]; then
+		sudo sed -i -e "${p},$((${p}+3)) s/^enable=[[:digit:]]\+/enable=1/g" ${DS_APP}/configs/${CONF}
+	fi
+
+	p=
+	p=`sed -n '/MsgConvBroker/=' ${DS_APP}/configs/${CONF}`
+	if [ -n "${p}" ]; then
+		sudo sed -i -e "${p},$((${p}+3)) s/^type=[[:digit:]]\+/type=6/g" ${DS_APP}/configs/${CONF}
+	fi
+
 }
 
 function config_mqtt () {
@@ -138,6 +157,7 @@ function config_mqtt () {
 	fi
 	# echo "s21=$s21 s22=$s22 s23=$s23"
 	if [ -n "${MQTT_HOST}" ]; then
+		config_sink1_enable_MsgConvBroker
 		s21=$MQTT_HOST
 	fi
 	if [ -n "${MQTT_PORT}" ]; then
@@ -171,6 +191,7 @@ function config_msgconv () {
 	p=`sed -n '/sink1/=' ${DS_APP}/configs/${CONF}`
 	if [ -n "${p}" ]; then
 		sudo sed -i -e "${p},$((${p}+9)) s/^msg-conv-payload-type=[[:digit:]]\+/msg-conv-payload-type=${MQTT_PAYLOAD}/" ${DS_APP}/configs/${CONF}
+		config_sink1_enable_MsgConvBroker
 	fi
 
 }
@@ -266,8 +287,25 @@ nvbuf-memory-type=0"
 
 function config_display () {
 
-	[ -n "$DISPLAY_ROWS" ] && sed -i "s/rows=[[:digit:]]\+/rows=${DISPLAY_ROWS}/" ${DS_APP}/configs/${CONF}
-	[ -n "$DISPLAY_COLUMNS" ] && sed -i "s/columns=[[:digit:]]\+/columns=${DISPLAY_COLUMNS}/" ${DS_APP}/configs/${CONF}
+	local p flag
+
+	flag=0
+
+	if [ -n "$DISPLAY_ROWS" ]; then
+		flag=1
+		sed -i "s/rows=[[:digit:]]\+/rows=${DISPLAY_ROWS}/" ${DS_APP}/configs/${CONF}
+	fi
+
+	if [ -n "$DISPLAY_COLUMNS" ]; then
+		flag=1
+		sed -i "s/columns=[[:digit:]]\+/columns=${DISPLAY_COLUMNS}/" ${DS_APP}/configs/${CONF}
+	fi
+
+	if [ "$flag" -eq 1 ]; then
+		p=`sed -n '/tiled-display/=' ${DS_APP}/configs/${CONF}`
+		[ -n "${p}" ] && sudo sed -i -e "${p},$((${p}+3)) s/^enable=[[:digit:]]\+/enable=1/g" ${DS_APP}/configs/${CONF}
+	fi
+
 }
 
 if [ "$#" -eq 0 ]; then
@@ -284,6 +322,10 @@ while [[ $# -gt 0 ]]; do
 			APP="$2"
 			shift # past argument
 			shift # past value
+			;;
+		-i|--install)
+			APP_INSTALL=1
+			shift # past argument
 			;;
 		-f|--config)
 			APP_CONFIG=1
@@ -416,7 +458,7 @@ fi
 
 if [ -n "${DS_APP}" ]; then
 	if [ "${APP}" = "deepstream-test5" ]; then
-		if [ "${APP_CONFIG}" -eq 0 ]; then
+		if [ "${APP_INSTALL}" -eq 1 ]; then
 			paho_mqtt_install
 
 			echo "###############################################"
@@ -424,7 +466,7 @@ if [ -n "${DS_APP}" ]; then
 			echo "###############################################"
 			sudo apt-get install libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev libgstrtspserver-1.0-dev libx11-dev libjson-glib-dev -y
 			pushd ${DS_APP}
-			sudo sed -i '/^CUDA_VER/c\CUDA_VER?=10.2' Makefile
+			sudo sed -i "/^CUDA_VER/c\CUDA_VER?=${CUDA_VER}" Makefile
 			make
 			popd
 
@@ -432,11 +474,9 @@ if [ -n "${DS_APP}" ]; then
 			echo "### Install libs mqtt adaptor and msgconv to ${DS_LIB}"
 			echo "###############################################"
 			sudo cp lib/libnvds_mqtt_proto_${NVDS_VERSION}.so ${DS_LIB}
-			sudo cp lib/libnvds_msgconv_${NVDS_VERSION}.so ${DS_LIB}
 			sudo ln -sf libnvds_mqtt_proto_${NVDS_VERSION}.so ${DS_LIB}/libnvds_mqtt_proto.so
-			sudo ln -sf libnvds_msgconv_${NVDS_VERSION}.so ${DS_LIB}/libnvds_msgconv.so
-
-		else
+		fi
+		if [ "${APP_CONFIG}" -eq 1 ]; then
 			CONF=test5_config_file_src_infer.txt
 			echo "###############################################"
 			echo "### Configure ${APP} ${CONF}"
@@ -449,6 +489,8 @@ if [ -n "${DS_APP}" ]; then
 			config_rtsp
 			config_source
 			config_display
+			echo "Configure done. Please run test5 with below command:"
+			echo "sudo ./deepstream-test5-app -c configs/test5_config_file_src_infer.txt"
 		fi
 	else
 		echo "Not support ${APP} now!!"
