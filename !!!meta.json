@@ -1,0 +1,181 @@
+{
+	"formatVersion": 1,
+	"appVersion": "0.59.3",
+	"files": [
+		{
+			"isClone": false,
+			"noteId": "COxOwivZq2Mk",
+			"notePath": [
+				"COxOwivZq2Mk"
+			],
+			"title": "README_mqtt_test5",
+			"notePosition": 50,
+			"prefix": null,
+			"isExpanded": true,
+			"type": "text",
+			"mime": "text/html",
+			"attributes": [
+				{
+					"type": "relation",
+					"name": "imageLink",
+					"value": "lTuVeokp4zMx",
+					"isInheritable": false,
+					"position": 9
+				},
+				{
+					"type": "relation",
+					"name": "imageLink",
+					"value": "GFubhjh20Q72",
+					"isInheritable": false,
+					"position": 10
+				},
+				{
+					"type": "relation",
+					"name": "imageLink",
+					"value": "6QthIUpvFItA",
+					"isInheritable": false,
+					"position": 11
+				},
+				{
+					"type": "relation",
+					"name": "imageLink",
+					"value": "Rbfb8amGW31S",
+					"isInheritable": false,
+					"position": 14
+				},
+				{
+					"type": "relation",
+					"name": "imageLink",
+					"value": "s7WcOO9yL5N6",
+					"isInheritable": false,
+					"position": 15
+				}
+			],
+			"format": "markdown",
+			"dataFileName": "README_mqtt_test5.md",
+			"dirFileName": "README_mqtt_test5",
+			"children": [
+				{
+					"isClone": false,
+					"noteId": "6QthIUpvFItA",
+					"notePath": [
+						"COxOwivZq2Mk",
+						"6QthIUpvFItA"
+					],
+					"title": "ds_test4_mqtt.png",
+					"notePosition": 10,
+					"prefix": null,
+					"isExpanded": false,
+					"type": "image",
+					"mime": "image/png",
+					"attributes": [
+						{
+							"type": "label",
+							"name": "originalFileName",
+							"value": "ds_test4_mqtt.png",
+							"isInheritable": false,
+							"position": 1000
+						}
+					],
+					"dataFileName": "ds_test4_mqtt.png"
+				},
+				{
+					"isClone": false,
+					"noteId": "lTuVeokp4zMx",
+					"notePath": [
+						"COxOwivZq2Mk",
+						"lTuVeokp4zMx"
+					],
+					"title": "ds_test5_exe_console_log.png",
+					"notePosition": 20,
+					"prefix": null,
+					"isExpanded": false,
+					"type": "image",
+					"mime": "image/jpg",
+					"attributes": [
+						{
+							"type": "label",
+							"name": "originalFileName",
+							"value": "ds_test5_exe_console_log.png",
+							"isInheritable": false,
+							"position": 1000
+						}
+					],
+					"dataFileName": "ds_test5_exe_console_log.png"
+				},
+				{
+					"isClone": false,
+					"noteId": "GFubhjh20Q72",
+					"notePath": [
+						"COxOwivZq2Mk",
+						"GFubhjh20Q72"
+					],
+					"title": "nv_ds62_protocol_adapter_mqtt_vlc.png",
+					"notePosition": 30,
+					"prefix": null,
+					"isExpanded": false,
+					"type": "image",
+					"mime": "image/jpg",
+					"attributes": [
+						{
+							"type": "label",
+							"name": "originalFileName",
+							"value": "nv_ds62_protocol_adapter_mqtt_vlc.png",
+							"isInheritable": false,
+							"position": 1000
+						}
+					],
+					"dataFileName": "nv_ds62_protocol_adapter_mqtt_"
+				},
+				{
+					"isClone": false,
+					"noteId": "Rbfb8amGW31S",
+					"notePath": [
+						"COxOwivZq2Mk",
+						"Rbfb8amGW31S"
+					],
+					"title": "image.jpg",
+					"notePosition": 40,
+					"prefix": null,
+					"isExpanded": false,
+					"type": "image",
+					"mime": "image/jpg",
+					"attributes": [
+						{
+							"type": "label",
+							"name": "originalFileName",
+							"value": "image.jpg",
+							"isInheritable": false,
+							"position": 1000
+						}
+					],
+					"dataFileName": "image.jpg"
+				},
+				{
+					"isClone": false,
+					"noteId": "s7WcOO9yL5N6",
+					"notePath": [
+						"COxOwivZq2Mk",
+						"s7WcOO9yL5N6"
+					],
+					"title": "image.jpg",
+					"notePosition": 50,
+					"prefix": null,
+					"isExpanded": false,
+					"type": "image",
+					"mime": "image/jpg",
+					"attributes": [
+						{
+							"type": "label",
+							"name": "originalFileName",
+							"value": "image.jpg",
+							"isInheritable": false,
+							"position": 1000
+						}
+					],
+					"dataFileName": "1_image.jpg"
+				}
+			]
+		}
+	]
+}
